@@ -2,6 +2,7 @@
 using Telegram.Bot;
 using Telegram.Bot.Args;
 
+//ПРИВЕТ ВАНЯ!!!!!!!!!
 namespace TelegramBot
 {
     class Program

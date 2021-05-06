@@ -1,32 +1,42 @@
 ﻿using System;
 using Telegram.Bot;
 using Telegram.Bot.Args;
+using System.Collections.Generic;
+using TelegramBot.Commands;
 
 //ПРИВЕТ ВАНЯ!!!!!!!!!
 namespace TelegramBot
 {
-    class Program
+    public class Program
     {
-        private static string token { get; set; } = "1695496258:AAHCOaKu-xuC-mziYWaRQBRmQLvi8pLV1EA";
-        private static TelegramBotClient client;
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            client = new TelegramBotClient(token);
-            client.StartReceiving();
-            client.OnMessage += OnMessageHandler;
+            Bot.client = new TelegramBotClient(AppSettings.Key);
+            Bot.AddCommand(new HelloCommand());
+            Bot.AddCommand(new HelpCommand());
+            Bot.client.StartReceiving();
+            Bot.client.OnMessage += OnMessageHandler;
 
             Console.ReadLine();
-            client.StopReceiving();
+            Bot.client.StopReceiving();
 
+            return 0;
         }
 
-        private static async void OnMessageHandler(object sender, MessageEventArgs e)
+        private static void OnMessageHandler(object sender, MessageEventArgs e)
         {
             var msg = e.Message;
             if (msg.Text != null)
             {
                 Console.WriteLine($"Пришло сообщение с текстом {msg.Text}");
-                await client.SendTextMessageAsync(msg.Chat.Id, msg.Text, replyToMessageId: msg.MessageId);
+                foreach(var command in Bot.Commands)
+                {
+                    if (command.Contains(msg.Text))
+                    {
+                        command.Execute(msg, Bot.client);
+                        break;
+                    }
+                }
             }
         }
     }

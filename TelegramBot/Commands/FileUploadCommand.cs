@@ -18,19 +18,20 @@ namespace TelegramBot.Commands
             var chatId = message.Chat.Id;
             var messageId = message.MessageId;
 
+
             //TODO: Bot logic -_-
-            Console.WriteLine("File name is " + message.Document.FileName + ", caption is " + message.Caption);
-            await client.SendTextMessageAsync(chatId, "I've got your file!", replyToMessageId: messageId);
-            try
+            if (message.Document != null)
             {
+                Console.WriteLine("File name is " + message.Document.FileName + ", caption is " + message.Caption);
+                await client.SendTextMessageAsync(chatId, "I've got your file!", replyToMessageId: messageId);
                 System.IO.FileStream fs = System.IO.File.Create("C:/Users/79679/source/repos/RGR/TelegramBot/bin/Debug/netcoreapp3.1/" + message.Document.FileName);
                 var file = await client.GetInfoAndDownloadFileAsync(message.Document.FileId, fs);
                 Console.WriteLine("Got a file\n" + file.ToString());
                 fs.Close();
             }
-            catch (Exception e)
+            else
             {
-                await client.SendTextMessageAsync(chatId, e.Message, replyToMessageId: messageId);
+                await client.SendTextMessageAsync(chatId, "Error uploading file!\nPlease try again", replyToMessageId: messageId);
             }
         }
     }

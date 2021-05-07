@@ -28,7 +28,7 @@ namespace TelegramBot.Commands
                     var stream = System.IO.File.Open(words[1], System.IO.FileMode.Open);
                     InputOnlineFile iof = new InputOnlineFile(stream);
                     iof.FileName = words[1];
-                    var send = await client.SendDocumentAsync(message.Chat.Id, iof, "Сообщение");
+                    var send = await client.SendDocumentAsync(message.Chat.Id, iof);
                     stream.Close();
                 }
                 catch

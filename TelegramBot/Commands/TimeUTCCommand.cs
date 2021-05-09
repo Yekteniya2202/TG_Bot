@@ -31,12 +31,13 @@ namespace TelegramBot.Commands
             }
 
             char sign = '+';
-            if (hours < 0)
+            int hours2 = hours;
+            if (hours2 < 0)
             {
                 sign = '-';
-                hours *= -1;
+                hours2 *= -1;
             }
-            await client.SendTextMessageAsync(chatId, "Current time for UTC" + sign + hours + " is " + System.DateTime.Now.AddHours(-3 + hours).ToString(), replyToMessageId: messageId);
+            await client.SendTextMessageAsync(chatId, "Current time for UTC" + sign + hours2 + " is " + System.DateTime.Now.AddHours(-3 + hours).ToString(), replyToMessageId: messageId);
 
         }
     }

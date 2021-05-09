@@ -20,7 +20,7 @@ namespace TelegramBot.Commands
             System.IO.FileStream stream = default;
             try
             {
-                stream = System.IO.File.Open("greetings.mp4", System.IO.FileMode.Open);
+                stream = System.IO.File.Open(Bot.DirectoryPath + @"\" + "greetings.mp4", System.IO.FileMode.Open);
             }
             catch
             {

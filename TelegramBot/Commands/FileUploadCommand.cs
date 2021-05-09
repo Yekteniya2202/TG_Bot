@@ -11,7 +11,7 @@ namespace TelegramBot.Commands
     {
         public override string[] Name => new string[] { "fileupload", "FileUpload", "file_upload" };
 
-        public override string Description => "uploads file";
+        public override string Description => "uploads file up to 20 Mb";
 
         public override async void Execute(Message message, TelegramBotClient client)
         {
@@ -23,15 +23,27 @@ namespace TelegramBot.Commands
             if (message.Document != null)
             {
                 Console.WriteLine("File name is " + message.Document.FileName + ", caption is " + message.Caption);
-                await client.SendTextMessageAsync(chatId, "I've got your file!", replyToMessageId: messageId);
-                System.IO.FileStream fs = System.IO.File.Create("C:/Users/79679/source/repos/RGR/TelegramBot/bin/Debug/netcoreapp3.1/" + message.Document.FileName);
-                var file = await client.GetInfoAndDownloadFileAsync(message.Document.FileId, fs);
-                Console.WriteLine("Got a file\n" + file.ToString());
-                fs.Close();
+                System.IO.FileStream fs = default;
+                try
+                {
+                    if (message.Document.FileSize > 20 * 1024 * 1024)
+                    {
+                        throw new Exception("File is too big");
+                    }
+                    fs = System.IO.File.Create(Bot.DirectoryPath + @"\" + message.Document.FileName);
+                    var file = await client.GetInfoAndDownloadFileAsync(message.Document.FileId, fs);
+                    await client.SendTextMessageAsync(chatId, "I've got your file!", replyToMessageId: messageId);
+                    Console.WriteLine("Got a file\n" + file.ToString());
+                    fs.Close();
+                }
+                catch (Exception e)
+                {
+                    await client.SendTextMessageAsync(chatId, $"Error uploading file! ({e.Message})\nPlease try again", replyToMessageId: messageId);
+                }
             }
             else
             {
-                await client.SendTextMessageAsync(chatId, "Error uploading file!\nPlease try again", replyToMessageId: messageId);
+                await client.SendTextMessageAsync(chatId, "Not found file!\nPlease try again", replyToMessageId: messageId);
             }
         }
     }

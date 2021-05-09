@@ -11,7 +11,8 @@ namespace TelegramBot
     {
         public static TelegramBotClient client = new TelegramBotClient(AppSettings.Key);
         public static string Name = AppSettings.Name;
-        private static List<Command> commands = new List<Command>(); 
+        private static List<Command> commands = new List<Command>();
+        public static string DirectoryPath { get; set; }
         public static IReadOnlyList<Command> Commands { get => commands.AsReadOnly(); }
         public static void AddCommand(Command cmd)
         {

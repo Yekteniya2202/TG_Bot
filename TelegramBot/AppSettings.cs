@@ -10,6 +10,6 @@ namespace TelegramBot
 
         public static string Name { get; set; } = "babaev_bot";
 
-        public static string Key { get; set; } = "1779212407:AAGimsnn8IPC5KknY_ks2mKxxZit3SpXEn0";
+        public static string Key { get; set; } = "1751457111:AAHbnLPHwQ5VjOl1PxSUHCozaO1EDKuSk0Q";
     }
 }

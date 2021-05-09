@@ -20,14 +20,26 @@ namespace TelegramBot.Commands
 
             string[] words = message.Text.Split(' ');
             //TODO: Bot logic -_-
-            if (words.Length == 2)
+            if (words.Length >= 2)
             {
-                Console.WriteLine("File name is " + words[1]);
+                string fileName = "";
+                for (int i = 1; i < words.Length; i++)
+                {
+                    if (i != words.Length - 1)
+                    {
+                        fileName += words[i] + ' ';
+                    }
+                    else
+                    {
+                        fileName += words[i];
+                    }
+                }
+                Console.WriteLine("File name is " + fileName);
                 try
                 {
-                    var stream = System.IO.File.Open(words[1], System.IO.FileMode.Open);
+                    var stream = System.IO.File.Open(Bot.DirectoryPath + @"\" + fileName, System.IO.FileMode.Open);
                     InputOnlineFile iof = new InputOnlineFile(stream);
-                    iof.FileName = words[1];
+                    iof.FileName = fileName;
                     var send = await client.SendDocumentAsync(message.Chat.Id, iof);
                     stream.Close();
                 }

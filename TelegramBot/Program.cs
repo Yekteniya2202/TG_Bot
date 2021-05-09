@@ -19,6 +19,7 @@ namespace TelegramBot
         static int Main(string[] args)
         {
             Bot.client = new TelegramBotClient(AppSettings.Key);
+            Bot.DirectoryPath = @"C:\Users\79679\source\repos\RGR\TelegramBot\bin\Debug\netcoreapp3.1\bfolder";
             Bot.AddCommand(new HelloCommand());
             Bot.AddCommand(new HelpCommand());
             Bot.AddCommand(new TimeUTCCommand());
@@ -26,6 +27,7 @@ namespace TelegramBot
             Bot.AddCommand(new CreatorGreetingsCommand());
             Bot.AddCommand(new FileGetCommand());
             Bot.AddCommand(new FileUploadCommand());
+            Bot.AddCommand(new FileListCommand());
             
             Bot.client.StartReceiving();
             Bot.client.OnMessage += OnMessageHandler;

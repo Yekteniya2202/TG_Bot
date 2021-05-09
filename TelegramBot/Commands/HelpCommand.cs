@@ -9,7 +9,7 @@ namespace TelegramBot.Commands
 {
     public class HelpCommand : Command
     {
-        public override string Name => "help";
+        public override string[] Name => new string[] { "help"};
         public override string Description => "shows current available commands";
         public override async void Execute(Message message, TelegramBotClient client)
         {
@@ -18,9 +18,10 @@ namespace TelegramBot.Commands
             //TODO: Bot logic -_-
             StringBuilder InfoReplyBuilder = new StringBuilder();
             string InfoReply;
+
             foreach(var command in Bot.Commands)
             {
-                InfoReplyBuilder.Append('/' + command.Name + '@' + Bot.Name + " - " + command.Description + '\n');
+                InfoReplyBuilder.Append('/' + command.Name[0] + '@' + Bot.Name + ' ' + command.Description + '\n');
             }
             InfoReply = InfoReplyBuilder.ToString();
             await client.SendTextMessageAsync(chatId, InfoReply, replyToMessageId: messageId);

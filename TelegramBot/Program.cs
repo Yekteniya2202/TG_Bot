@@ -21,9 +21,12 @@ namespace TelegramBot
             Bot.client = new TelegramBotClient(AppSettings.Key);
             Bot.AddCommand(new HelloCommand());
             Bot.AddCommand(new HelpCommand());
+            Bot.AddCommand(new TimeUTCCommand());
             Bot.AddCommand(new CreatorInfoCommand());
+            Bot.AddCommand(new CreatorGreetingsCommand());
             Bot.AddCommand(new FileGetCommand());
             Bot.AddCommand(new FileUploadCommand());
+            
             Bot.client.StartReceiving();
             Bot.client.OnMessage += OnMessageHandler;
 
@@ -49,27 +52,18 @@ namespace TelegramBot
 
             var msg = e.Message;
 
-            //если отпрвили документ с описанием
-            if ((msg.Document != null || msg.Photo != null) && msg.Caption != null)
-            {
-                foreach (var command in Bot.Commands)
-                {
-                    //находим команду загрузки файлов
-                    if (command is FileUploadCommand && command.Contains(msg.Caption)) //если нашли команду и в описании стоит нужная команда
-                    {
-                        command.Execute(msg, Bot.client); // выполняем
-                        return;
-                    }
-                }
-            }
 
-            if (msg.Text != null)
+            if (msg.Text != null || msg.Caption != null)
             {
-
                 Console.WriteLine($"Пришло сообщение с текстом {msg.Text}");
                 foreach (var command in Bot.Commands)
                 {
-                    if (command.Contains(msg.Text))
+                    if (msg.Text != null && command.Contains(msg.Text))
+                    {
+                        command.Execute(msg, Bot.client);
+                        break;
+                    }
+                    else if (msg.Caption != null && command.Contains(msg.Caption))
                     {
                         command.Execute(msg, Bot.client);
                         break;

@@ -8,7 +8,7 @@ namespace TelegramBot.Commands
 {
     public class HelloCommand : Command
     {
-        public override string Name => "hello";
+        public override string[] Name => new string[] { "hello", "hi", "privet" };
 
         public override string Description => "greets a user with \"Hello\" message";
 

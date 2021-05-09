@@ -9,9 +9,9 @@ namespace TelegramBot.Commands
 {
     public class FileGetCommand : Command
     {
-        public override string Name => "fileget";
+        public override string[] Name => new string[] { "fileget", "FileGet", "file_get" };
 
-        public override string Description => "gets a file by name input";
+        public override string Description => "<filename> gets a file by name input";
 
         public override async void Execute(Message message, TelegramBotClient client)
         {

@@ -9,7 +9,7 @@ namespace TelegramBot.Commands
 {
     public class FileUploadCommand : Command
     {
-        public override string Name => "fileupload";
+        public override string[] Name => new string[] { "fileupload", "FileUpload", "file_upload" };
 
         public override string Description => "uploads file";
 

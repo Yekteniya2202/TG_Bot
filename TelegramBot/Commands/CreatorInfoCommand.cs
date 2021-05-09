@@ -9,7 +9,7 @@ namespace TelegramBot.Commands
 {
     public class CreatorInfoCommand : Command
     {
-        public override string Name => "creatorinfo";
+        public override string[] Name => new string[] { "creatorinfo", "CreatorInfo", "creator_info" };
 
         public override string Description => "send user an info about the bot's creator";
 

@@ -20,6 +20,8 @@ namespace TelegramBot
         {
             Bot.client = new TelegramBotClient(AppSettings.Key);
             Bot.DirectoryPath = @"C:\Users\79679\source\repos\RGR\TelegramBot\bin\Debug\netcoreapp3.1\bfolder";
+            Bot.AddCommand(new StartCommand());
+            Bot.AddCommand(new StopCommand());
             Bot.AddCommand(new HelloCommand());
             Bot.AddCommand(new HelpCommand());
             Bot.AddCommand(new TimeUTCCommand());
@@ -60,12 +62,16 @@ namespace TelegramBot
                 Console.WriteLine($"Пришло сообщение с текстом {msg.Text}");
                 foreach (var command in Bot.Commands)
                 {
-                    if (msg.Text != null && command.Contains(msg.Text))
+                    if (command is StartCommand ^ command is StopCommand && command.Contains(msg.Text))
+                    {
+                        command.Execute(msg, Bot.client);
+                    }
+                    if (msg.Text != null && command.Contains(msg.Text) && Bot.IsStarted)
                     {
                         command.Execute(msg, Bot.client);
                         break;
                     }
-                    else if (msg.Caption != null && command.Contains(msg.Caption))
+                    else if (msg.Caption != null && command.Contains(msg.Caption) && Bot.IsStarted)
                     {
                         command.Execute(msg, Bot.client);
                         break;

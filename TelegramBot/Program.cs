@@ -62,9 +62,12 @@ namespace TelegramBot
                 Console.WriteLine($"Пришло сообщение с текстом {msg.Text}");
                 foreach (var command in Bot.Commands)
                 {
-                    if (command is StartCommand ^ command is StopCommand && command.Contains(msg.Text))
+                    if (command is StartCommand ^ command is StopCommand)
                     {
-                        command.Execute(msg, Bot.client);
+                        if (msg.Text != null && command.Contains(msg.Text))
+                        {
+                            command.Execute(msg, Bot.client);
+                        }
                     }
                     if (msg.Text != null && command.Contains(msg.Text) && Bot.IsStarted)
                     {
